@@ -6,14 +6,19 @@ import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
-  twitter          : {
-    id           : {type: String, required: true},
-    token        : String,
-    displayName  : {type: String, required: true},
-    username     : String,
-    picture      : String,
-    creationDate : {type: Date, default: Date.now},
-    updateDate   : {type: Date, default: Date.now}
+  twitter         : {
+    id            : {type: String, required: true},
+    token         : String,
+    displayName   : {type: String, required: true},
+    username      : String,
+    picture       : String,
+    creationDate  : {type: Date, default: Date.now},
+    updateDate    : {type: Date, default: Date.now}
+  },
+  legislators     : [ String ], // track the sunlight id's of legislators
+  location        : {
+    lat           : {type: Number, default: -9999},
+    lon           : {type: Number, default: -9999}
   }
 });
 
