@@ -37,7 +37,7 @@ module.exports = function(app, passport) {
 
   // route for showing the profile page
   app.get('/loadUser', authorize, function(req, res) {
-      res.send(req.user);  // get the user out of session and pass to template
+      res.send(req.user || null);  // get the user out of session and send it back
   });
 
   // route for logging out
@@ -57,7 +57,7 @@ module.exports = function(app, passport) {
   // handle the callback after twitter has authenticated the user
   app.get('/auth/twitter/callback', passport.authenticate('twitter', {
       successRedirect : 'http://localhost:3000/',
-      failureRedirect : '/login'
+      failureRedirect : '/'
     }));
 
 };
@@ -66,10 +66,9 @@ module.exports = function(app, passport) {
 function authorize(req, res, next) {
   console.log('authorizing');
   if (req.isAuthenticated()) {
-    console.log('/loadAuth req authorized');
     next();
   } else {
     console.log('req.isAuth ==', req.isAuthenticated());
-    res.send(401, 'not authorized');
+    res.status(401).send('not authorized');
   }
 }
