@@ -6,15 +6,19 @@ userRouter.route('/user')
     res.send(req.user);
   })
   .post((req, res) => {
-    console.log('req.data ==', req.body);
+    console.log('req.data ==', req.user.id);
     User.update({'twitter.id': req.user.id}, {
       $set: {
         location: req.body
       }
     });
-    // Now that we've updated the user, have them send a get request to This
-    // route so that we're sending them back a fresh updated user object
-    res.redirect('');
+    // not sure if there's a way to avoid making this second db call (bc it's a little silly)
+    // but hey, whatevs. We've updated the record, so send them the new one from the db
+    User.findOne({'twitter.id': req.user.id}, (err, user) => {
+      console.log('sending user', user)
+      res.send(user)
+    })
+
   })
 
 export default userRouter
