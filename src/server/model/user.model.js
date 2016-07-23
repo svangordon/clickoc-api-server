@@ -17,8 +17,8 @@ const userSchema = new Schema({
   },
   legislators     : [ String ], // track the sunlight id's of legislators
   location        : {
-    lat           : {type: Number, default: -9999},
-    lon           : {type: Number, default: -9999}
+    lat           : {type: Number, default: -9999}, // xxx: can this just be null?
+    lng           : {type: Number, default: -9999}
   }
 });
 
