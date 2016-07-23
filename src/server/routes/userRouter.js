@@ -6,10 +6,10 @@ userRouter.route('/user')
     res.send(req.user);
   })
   .post((req, res) => {
-    console.log('req.data ==', req);
+    console.log('req.data ==', req.body);
     User.update({'twitter.id': req.user.id}, {
       $set: {
-        location: req.data.location
+        location: req.body
       }
     });
     // Now that we've updated the user, have them send a get request to This
