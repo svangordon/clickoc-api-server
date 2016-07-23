@@ -1,6 +1,6 @@
 import testRoutes from './testRoutes';
-import legislatorRoutes from './legislatorRoutes';
 import testControllers from '../controllers/testcontrollers.js';
+import apiRouter from './apiRouter';
 
 module.exports = function(app, passport) {
 
@@ -9,31 +9,7 @@ module.exports = function(app, passport) {
     res.render('index.ejs'); // load the index.ejs file
   });
 
-  app.use('/test', testRoutes);
-
-  app.get('/api/test', authorize, (req, res) => {
-    console.log('api/test callback hit')
-    res.send('yo dog')
-  });
-
-  app.get('/twitter/redirect', function(req, res) {
-    res.send('twitter redirect')
-  })
-
-  // app.use('/api/test', testRoutes);
-
-  app.use('/api/legislators', legislatorRoutes);
-
-  app.get('/loadInfo', function (req, res) {
-    res.send({
-      message: "This message came from the newer api server",
-      time: Date.now()
-    })
-  })
-
-  // app.get('/loadAuth', function (req, res) {
-  //   res.send(req.session.user || null)
-  // })
+  app.use('/api', authorize, apiRouter);
 
   // route for showing the profile page
   app.get('/loadUser', authorize, function(req, res) {
