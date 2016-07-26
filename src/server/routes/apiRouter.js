@@ -1,8 +1,10 @@
 let apiRouter = require('express').Router();
 import userRouter from './userRouter';
+import legislatorRouter from './legislatorRouter';
 
 apiRouter.use(
-  userRouter
+  userRouter,
+  legislatorRouter
 );
 
 export default apiRouter

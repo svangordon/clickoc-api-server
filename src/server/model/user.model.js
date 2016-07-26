@@ -15,7 +15,10 @@ const userSchema = new Schema({
     creationDate  : {type: Date, default: Date.now},
     updateDate    : {type: Date, default: Date.now}
   },
-  legislators     : [ String ], // track the sunlight id's of legislators
+  legs : {
+    lastUpdated   : {type: Date, default: Date.now},
+    legislators   : [{type: String, ref: 'Legislator'}]
+  }, // track the sunlight id's of legislators
   location        : {
     lat           : {type: Number, default: -9999}, // xxx: can this just be null?
     lng           : {type: Number, default: -9999}

@@ -3,11 +3,16 @@ import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 
 const legislatorSchema = new Schema({
-  sunlightId : String,
-
+  bioguideId : String,
+  _id: String,
   twitterId: String,
 
-  updateDate : {type: Date, default: Date.now}
+  updateDate : {type: Date, default: Date.now},
+
+  twitterData: {
+    updateDate: {type: Date, default: Date.now},
+    account: Schema.Types.Mixed
+  },
 
   // Info about what to call the pol
   bioInfo: {
@@ -35,7 +40,11 @@ const legislatorSchema = new Schema({
     district: Number,
     stateRank: {
       type: String,
-      enum: ['junior', 'senior']
+      enum: ['junior', 'senior', '']
+    },
+    chamber: {
+      type: String,
+      enum: ['house, senate']
     }
   }
 });
