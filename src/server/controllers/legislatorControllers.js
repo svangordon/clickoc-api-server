@@ -75,7 +75,6 @@ let controllerMethods = {
       .populate('legs.legislators')
       .exec((err, document) => {
         if (err) console.error(err);
-        console.log('pols ==', document.legs.legislators)
         res.send(document.legs.legislators);
       })
   },
@@ -144,6 +143,12 @@ let controllerMethods = {
     if (updateCount === 0) {
       next();
     } else {
+      let twitterClient = new Twitter({
+        consumer_key: config.TWITTER_AUTH.TWITTER_KEY,
+        consumer_secret: config.TWITTER_AUTH.TWITTER_SECRET,
+        access_token_key: req.user.twitter.token,
+        access_token_secret: req.user.twitter.tokenSecret
+      });
       twitterClient.get('users/lookup', {screen_name: legislatorsToUpdate}, (error, accounts, response) => {
         if (error) {
           res.status(500).send('couldn\'t lookup');

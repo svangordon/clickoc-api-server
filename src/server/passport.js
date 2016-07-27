@@ -94,7 +94,7 @@ function createNewTwitterUser(profile, token, tokenSecret){
   // set all of the user data that we need
   newUser.twitter.id = profile.id;
   newUser.twitter.token = token;
-  newUser.twitter.token = tokenSecret;
+  newUser.twitter.tokenSecret = tokenSecret;
   newUser.twitter.username = profile.username;
   newUser.twitter.username = profile.username;
   if (profile.photos.length > 0) {
