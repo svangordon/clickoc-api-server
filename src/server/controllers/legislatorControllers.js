@@ -132,30 +132,40 @@ let controllerMethods = {
   },
   // checks if we need to update twitter info
   checkTwitter: (req, res, next) => {
+    console.log('initial legs ===', req.user.legs.legislators);
     let legislatorsToUpdate = req.user.legs.legislators.filter(leg =>
       moment().isBefore( moment(leg.twitterData.updateDate).add(24, 'hours') ) || leg.twitterData.account === undefined
     ).map(leg => leg.twitterId);
     const legTotal = legislatorsToUpdate.length;
     let updateCount = 0;
     legislatorsToUpdate = legislatorsToUpdate.join(',');
-    twitterClient.get('users/lookup', {screen_name: legislatorsToUpdate}, (error, accounts, response) => {
-      if (error) console.error(error);
-      accounts.forEach((account) => {
-        Legislator.findOneAndUpdate({twitterId: account.screen_name}, {
-          $set: {
-            twitterData: {
-              updateDate: Date.now(),
-              accout: account
-            }
-          }
-        }, (error, doc) => {
-          updateCount++;
-          if (updateCount >= legTotal) {
-            next();
-          }
-        });
-      })
-    });
+
+    console.log( 'legislatorsToUpdate',legislatorsToUpdate);
+    if (updateCount === 0) {
+      next();
+    } else {
+      twitterClient.get('users/lookup', {screen_name: legislatorsToUpdate}, (error, accounts, response) => {
+        if (error) {
+          res.status(500).send('couldn\'t lookup');
+        } else {
+          accounts.forEach((account) => {
+            Legislator.findOneAndUpdate({twitterId: account.screen_name}, {
+              $set: {
+                twitterData: {
+                  updateDate: Date.now(),
+                  accout: account
+                }
+              }
+            }, (error, doc) => {
+              updateCount++;
+              if (updateCount >= legTotal) {
+                next();
+              }
+            });
+          })
+        }
+      });
+    }
   }
 }
 

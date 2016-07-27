@@ -9,6 +9,7 @@ const userSchema = new Schema({
   twitter         : {
     id            : {type: String, required: true},
     token         : String,
+    tokenSecret   : String,
     displayName   : {type: String, required: true},
     username      : String,
     picture       : String,

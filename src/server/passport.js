@@ -47,10 +47,13 @@ export default function init(app) {
     },
     function(token, tokenSecret, profile, done) {
 
+      // NB: This code works, and i'm going to keep it like it is, but i'm worried
+      // that it won't be able to handle things like someone's token / secret changing
+
       // make the code asynchronous
       // User.findOne won't fire until we have all our data back from Twitter
       process.nextTick(function() {
-        loginOrCreateNewUserAndLogin(token, profile, done);
+        loginOrCreateNewUserAndLogin(token, tokenSecret, profile, done);
       });
 
     }));
@@ -59,7 +62,7 @@ export default function init(app) {
 
 };
 
-function loginOrCreateNewUserAndLogin(token, profile, done) {
+function loginOrCreateNewUserAndLogin(token, tokenSecret, profile, done) {
   User.findOne({'twitter.id': profile.id}, function (err, user) {
 
     // if there is an error, stop everything and return that
@@ -73,7 +76,7 @@ function loginOrCreateNewUserAndLogin(token, profile, done) {
       return done(null, user); // user found, return that user
     } else {
       // if there is no user, create them
-      var newUser = createNewTwitterUser(profile, token);
+      var newUser = createNewTwitterUser(profile, token, tokenSecret);
       // save our user into the database
       newUser.save(function (err) {
         if (err)
@@ -85,12 +88,13 @@ function loginOrCreateNewUserAndLogin(token, profile, done) {
   });
 }
 
-function createNewTwitterUser(profile, token){
+function createNewTwitterUser(profile, token, tokenSecret){
   var newUser = new User();
 
   // set all of the user data that we need
   newUser.twitter.id = profile.id;
   newUser.twitter.token = token;
+  newUser.twitter.token = tokenSecret;
   newUser.twitter.username = profile.username;
   newUser.twitter.username = profile.username;
   if (profile.photos.length > 0) {
