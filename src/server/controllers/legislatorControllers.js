@@ -130,14 +130,18 @@ let controllerMethods = {
     // next()
   },
   // checks if we need to update twitter info
+  // NB: Change the way that this is done. Instead of having a user command possibly
+  // trigger an update of legislators record, there should be a service constantly running
+  // that oh, idk, once a day makes a call for sunlight to barf up up all of the pols in congress
+  // (i mean, that'd be easy -- just one api call, etc)
   checkTwitter: (req, res, next) => {
-    console.log('initial legs ===', req.user.legs.legislators);
-    let legislatorsToUpdate = req.user.legs.legislators.filter(leg =>
-      moment().isBefore( moment(leg.twitterData.updateDate).add(24, 'hours') ) || leg.twitterData.account === undefined
-    ).map(leg => leg.twitterId);
-    const legTotal = legislatorsToUpdate.length;
+    // console.log('initial legs ===', req.user.legs);
+    // let legislatorsToUpdate = req.user.legs.legislators.filter(leg =>
+    //   moment().isBefore( moment(leg.twitterData.lastUpdated).add(24, 'hours') ) || leg.twitterData.account === undefined
+    // ).map(leg => leg.twitterId);
+    const legTotal = req.user.legs.legislators.length;
     let updateCount = 0;
-    legislatorsToUpdate = legislatorsToUpdate.join(',');
+    const legislatorsToUpdate = req.user.legs.legislators.join(',');
 
     console.log( 'legislatorsToUpdate',legislatorsToUpdate);
     if (updateCount === 0) {
