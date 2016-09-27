@@ -1,5 +1,3 @@
-import testRoutes from './testRoutes';
-import testControllers from '../controllers/testcontrollers.js';
 import apiRouter from './apiRouter';
 
 module.exports = function(app, passport) {
