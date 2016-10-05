@@ -50,7 +50,8 @@ const addLegCallback = (legislatorObj) => {
       stateName: legislatorObj.state_name,
       district: legislatorObj.district || -1,
       stateRank: legislatorObj.state_rank || "",
-      chamber: legislatorObj.chamber
+      chamber: legislatorObj.chamber,
+      party: legislatorObj.party
     }
   }
   const callback = (err, doc) => {
