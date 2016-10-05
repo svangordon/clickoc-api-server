@@ -15,7 +15,6 @@ tweetRouter.route('/tweet')
       access_token_secret: req.user.twitter.tokenSecret
     });
     console.log(req.body);
-    console.log('arbitrary string!');
     // res.send(req.body);
     let successfulTweets = 0;
     req.body.legislators.forEach(legislator => {
@@ -27,7 +26,7 @@ tweetRouter.route('/tweet')
           console.log('set tweet to ', legislator.twitterId);
           successfulTweets++;
           if (successfulTweets === req.body.legislators.length) {
-            res.send('tweet sent');
+            res.send('all tweets sent');
           }
         } else {
           // res.status(500).send('tweet could not be sent');
