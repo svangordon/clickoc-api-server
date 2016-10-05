@@ -29,6 +29,10 @@ app.use(bodyParser.json()); // get information from html forms
 
 app.use(express.static('./src/public/'));
 
+// app.get('/api/tweet', (req, res) => {
+//   res.send('rooty tooty');
+// })
+
 // passport init
 var passport = require('./passport')(app);
 require('./routes/routes.js')(app, passport);
