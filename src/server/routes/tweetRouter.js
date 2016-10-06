@@ -19,7 +19,7 @@ tweetRouter.route('/tweet')
     let successfulTweets = 0;
     req.body.legislators.forEach(legislator => {
       twitterClient.post('statuses/update', {
-        status: "@" + legislator.twitterId + " " + req.body.tweetContent,
+        status: "@" + legislator.twitterId + " " + req.body.tweetContent + " " + "#clickocracy",
         in_reply_to_screen_name: legislator.twitterId
       }, (error, tweet, response) => {
         if (!error) {

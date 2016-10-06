@@ -18,8 +18,6 @@ console.log('mongodb uri ==', MONGO_DB.MONGO_URI);
 mongoose.connect(MONGO_DB.MONGO_URI); // connect to our database
 
 
-
-
 app.use(bodyParser.urlencoded({
   extended: true
 }));
